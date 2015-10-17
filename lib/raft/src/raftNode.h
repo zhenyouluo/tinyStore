@@ -8,6 +8,7 @@
 #include "candidateState.h"
 #include "followerState.h"
 #include "leaderState.h"
+#include "notConnectedState.h"
 #include "logEntry.h"
 
 #define MAX_LOG_LENGTH 512
@@ -15,9 +16,10 @@
 #define MESSAGE_BUFFER_SIZE 512
 
 class RaftNode : public FSM {
-    CandidateState *_candidate;
-    FollowerState *_follower;
-    LeaderState *_leader;
+  NotConnectedState *_notConnected; 
+  CandidateState *_candidate;
+  FollowerState *_follower;
+  LeaderState *_leader;
 
 public:
     LogEntry log[MAX_LOG_LENGTH];
@@ -34,6 +36,9 @@ public:
     int nodeCount();
     bool addNode(unsigned char *ip);
     void removeNode(unsigned char *ip);
+    int getNodeIndex(unsigned char *ip);
+    LogEntry getLogEntry(unsigned int index);
+    LogEntry getLastLogEntry();
 };
 
 #endif

@@ -2,24 +2,30 @@
 
 RaftNode::RaftNode(AbstractUdpProvider *udp, int seed) {
   this->udp = udp;
+  _notConnected = new NotConnectedState();
   _candidate = new CandidateState(this);
   _follower = new FollowerState(this);
   _leader = new LeaderState(this);
 
-  _stateCount = 3;
-  _states = new State*[3]{
+  _stateCount = 4;
+  _states = new State*[4]{
+    _notConnected,
     _follower,
     _candidate,
     _leader
   };
 
-  _transitionCount = 5;
-  _transitions = new Transition[5]{
-    Transition(0, 1, "candidate"),
-    Transition(1, 2, "elected"),
-    Transition(1, 1, "timedOut"),
-    Transition(1, 0, "not elected"),
-    Transition(2, 0, "higherTerm")
+  _transitionCount = 9;
+  _transitions = new Transition[9]{
+    Transition(0, 1, "connected"),
+    Transition(1, 0, "connectionLost"),
+    Transition(2, 0, "connectionLost"),
+    Transition(3, 0, "connectionLost"),
+    Transition(1, 2, "startVote"),
+    Transition(2, 3, "elected"),
+    Transition(2, 2, "timedOut"),
+    Transition(2, 1, "not elected"),
+    Transition(3, 1, "higherTerm")
   };
 
   randomSeed(seed);
@@ -63,13 +69,28 @@ bool RaftNode::addNode(unsigned char *ip) {
 
 void RaftNode::removeNode(unsigned char *ip) {
   for (int i = 0; i < MAX_NODE_COUNT; i++){
-    for (int j = 0; j  < 4; j++){
-      if (IPequals(ip, nodes[i])){
-        for (int k = 0; k  < 4; k++){
-          nodes[i][k] = 0;
-        }
-        return;
+    if (IPequals(ip, nodes[i])){
+      for (int k = 0; k  < 4; k++){
+        nodes[i][k] = 0;
       }
+      return;
     }
   }
+}
+
+int RaftNode::getNodeIndex(unsigned char *ip) {
+    for (int i = 0; i < MAX_NODE_COUNT; i++){
+      if (IPequals(ip, nodes[i])) {
+        return i;
+      }
+    }
+    return -1;
+}
+
+LogEntry RaftNode::getLogEntry(unsigned int index) {
+  return log[index % MAX_LOG_LENGTH];
+}
+
+LogEntry RaftNode::getLastLogEntry() {
+  return getLogEntry(commitIndex % MAX_LOG_LENGTH);
 }

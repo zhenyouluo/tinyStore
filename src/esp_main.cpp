@@ -9,30 +9,52 @@
 #include <ArduinoUdpProvider.h>
 
 const unsigned int MAX_MESSAGE_SIZE = 512;
+const unsigned int MAX_RECONNECT_MILLIS = 10000;
+const char ssid[] = "test";
+const char pass[] = "bremen12";
 
 ArduinoUdpProvider udp;
-unsigned char ip[4] = {192,168,43,244};
-unsigned char messageBuffer[MAX_MESSAGE_SIZE];
 RaftNode raft(&udp, analogRead(0));
+int wifiStatus = WL_IDLE_STATUS;
+bool APMode = false;
+unsigned long reconnectTimer;
 
 void setup() {
-
   Serial.begin(9600);
   WiFi.mode(WIFI_STA);
-  Serial.write("connecting to WiFi ...\n");
-  WiFi.begin("test", "bremen12");
-  Serial.write("connected!\n");
+  Serial.write("\nconnecting to WiFi ...\n");
+  wifiStatus = WiFi.begin(ssid, pass);
+  reconnectTimer = millis() + MAX_RECONNECT_MILLIS;
+  raft.setup();
+}
+
+void createAP() {
+  Serial.print("create AP ...\n");
+  WiFi.mode(WIFI_AP);
+  WiFi.softAP(ssid, pass);
+  APMode = true;
+}
+
+void resetTimer(){
+  reconnectTimer = millis() + MAX_RECONNECT_MILLIS;
 }
 
 void loop() {
-  String m = "Hello, World!";
-  m.getBytes(messageBuffer, MAX_MESSAGE_SIZE);
-  Serial.write("sending packet ...\n");
-  if (udp.sendPacket(ip, 55056, messageBuffer, m.length())){
-    Serial.write("packet sent!\n");
+  if (!APMode){
+    wifiStatus = WiFi.status();
+    switch (wifiStatus){
+      case WL_CONNECTED:
+        resetTimer();
+        raft.transition("connected");
+        break;
+      default:
+        raft.transition("connectionLost");
+        break;
+    }
+    if (millis() > reconnectTimer){
+      createAP();
+    }
   }
-  else {
-    Serial.write("error sending packet\n");
-  }
-  delay(1000);
+
+  raft.loop();
 }

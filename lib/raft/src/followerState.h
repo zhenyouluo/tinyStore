@@ -6,6 +6,9 @@
 
 class FollowerState : public State {
   void readPacket();
+  void parseRequestVoteMessage();
+  void parseAppendEntriesMessage();
+
 protected:
   RaftNode *_raft;
 

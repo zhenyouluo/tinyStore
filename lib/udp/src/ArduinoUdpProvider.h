@@ -14,7 +14,7 @@ public:
   virtual int parsePacket();
   virtual bool sendPacket(unsigned char *remoteIP, int remotePort, unsigned char *buffer, unsigned int size);
   virtual unsigned int available();
-  virtual IPAddress remoteIP();
+  virtual void remoteIP(unsigned char *buffer);
 };
 
 #endif

@@ -36,8 +36,18 @@ void FSM::setInitialState(int index){
 
 void FSM::transition(const char *name){
   for (int i = 0; i < _transitionCount; i++){
+    if (_current != _states[_transitions[i].from]){
+      continue;
+    }
     if (_transitions[i].from == i && strcmp(_transitions[i].name, name) == 0){
       _next = _states[_transitions[i].to];
+      Serial.print("transition from ");
+      Serial.print(i);
+      Serial.print(" to ");
+      Serial.print(_transitions[i].to);
+      Serial.print(" via ");
+      Serial.print(name);
+      Serial.print("\n");
       return;
     }
   }
