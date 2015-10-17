@@ -1,26 +1,33 @@
 #include "FSM.h"
 
-#ifndef ARDUINO
-#include <string.h>
-#endif
+#include <Arduino.h>
 
-
-FSM::FSM(){
+FSM::FSM(State** states, int stateCount, Transition* transitions, int transitionCount){
     _initialState = -1;
-    _states = std::vector<State*>();
-    _transitions = std::vector<Transition>();
+    _states = states;
+    _stateCount = stateCount;
+    _transitions = transitions;
+    _transitionCount = transitionCount;
     _current = 0;
     _next = 0;
 }
 
-void FSM::addState(State* state){
-  _states.push_back(state);
-  state->setFSM(this);
+FSM::FSM (){
+  _initialState = -1;
+  _stateCount = 0;
+  _transitionCount = 0;
+  _current = 0;
+  _next = 0;
 }
 
-void FSM::addTransition(int from, int to, const char *name){
-  Transition t(from, to, name);
-  _transitions.push_back(t);
+void FSM::setStates(State** states, int stateCount) {
+  _states = states;
+  _stateCount = stateCount;
+}
+
+void FSM::setTransitions(Transition* transitions, int transitionCount) {
+  _transitions = transitions;
+  _transitionCount = transitionCount;
 }
 
 void FSM::setInitialState(int index){
@@ -28,7 +35,7 @@ void FSM::setInitialState(int index){
 }
 
 void FSM::transition(const char *name){
-  for (int i = 0; i < _transitions.size(); i++){
+  for (int i = 0; i < _transitionCount; i++){
     if (_transitions[i].from == i && strcmp(_transitions[i].name, name) == 0){
       _next = _states[_transitions[i].to];
       return;
@@ -38,11 +45,11 @@ void FSM::transition(const char *name){
 
 void FSM::setup(){
   if (_initialState > -1){
-    if (_initialState < _states.size()){
+    if (_initialState < _stateCount) {
       _next = _states[_initialState];
     }
   }
-  else if (_states.size() > 0) {
+  else if (_stateCount > 0) {
     _next = _states[0];
   }
 }

@@ -5,6 +5,7 @@
 #include <WiFiClient.h>
 #include <WiFiServer.h>
 #include <WiFiUdp.h>
+#include <Raft.h>
 
 const unsigned int MAX_MESSAGE_SIZE = 512;
 
@@ -14,7 +15,7 @@ byte messageBuffer[MAX_MESSAGE_SIZE];
 
 void setup() {
   WiFi.mode(WIFI_STA);
-  WiFi.begin("", "");
+  WiFi.begin("test", "bremen12");
 }
 
 void loop() {

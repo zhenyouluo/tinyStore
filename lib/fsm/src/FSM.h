@@ -9,17 +9,23 @@ class State;
 #include "Transition.h"
 
 class FSM {
-  std::vector<State*> _states;
-  std::vector<Transition> _transitions;
+
   State *_current;
   State *_next;
   int _initialState;
+  
+protected:
+  State **_states;
+  int _stateCount;
+  Transition *_transitions;
+  int _transitionCount;
 
 public:
+  FSM(State** states, int stateCount, Transition* transitions, int transitionCount);
   FSM();
 
-  void addState(State* state);
-  void addTransition(int from, int to, const char *name);
+  void setStates(State** states, int stateCount);
+  void setTransitions(Transition* transitions, int transitionCount);
 
   void setInitialState(int index);
   void transition(const char *name);
