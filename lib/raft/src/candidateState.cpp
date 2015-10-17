@@ -30,6 +30,13 @@ void CandidateState::setup() {
   unsigned char localIP[4];
   _raft->udp->localIP(localIP);
   IPcopy(localIP,_raft->votedFor);
+  int ownIndex = _raft->getNodeIndex(localIP);
+  if (ownIndex < 0){
+    ownIndex = _raft->addNode(localIP);
+  }
+  if (ownIndex >= 0){
+    votes[ownIndex] = true;
+  }
 }
 
 void CandidateState::loop() {
@@ -37,7 +44,12 @@ void CandidateState::loop() {
     readPacket();
   }
   if (millis() > timeout){
-    _raft->transition("startVote");
+    if (hasMajority()){
+      _raft->transition("elected");
+    }
+    else {
+      _raft->transition("startVote");
+    }
   }
 }
 
@@ -57,5 +69,40 @@ void CandidateState::readPacket() {
 }
 
 void CandidateState::parseVoteMessage(){
+  unsigned int term = _raft->messageBuffer[1] | _raft->messageBuffer[2] << 8;
+  if (term > _raft->currentTerm){
+    _raft->currentTerm = term;
+    _raft->transition("not elected");
+    return;
+  }
+  unsigned char vote = _raft->messageBuffer[3];
+  unsigned char remoteIP[4];
+  _raft->udp->remoteIP(remoteIP);
 
+  int remoteIndex = _raft->getNodeIndex(remoteIP);
+  if (remoteIndex < 0){
+    remoteIndex = _raft->addNode(remoteIP);
+  }
+  if (remoteIndex >= 0){
+    if (vote){
+      votes[remoteIndex] = true;
+    }
+    else {
+      votes[remoteIndex] = false;
+    }
+  }
+  if (hasMajority()){
+    _raft->transition("elected");
+  }
+}
+
+bool CandidateState::hasMajority(){
+  int voteCount = 0;
+  for (int i = 0; i < MAX_NODE_COUNT; i++){
+    if (votes[i]){
+      ++voteCount;
+    }
+  }
+  int majority = (int)(_raft->nodeCount() / 2) + 1;
+  return voteCount >= majority;
 }

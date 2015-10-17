@@ -51,7 +51,11 @@ void FollowerState::parseRequestVoteMessage(){
     _raft->udp->sendPacket(ip, PORT, _raft->messageBuffer, 4);
     return;
   }
-
+  _raft->messageBuffer[0] = MESSAGE_TYPE_VOTE;
+  _raft->messageBuffer[1] = (unsigned char) term;
+  _raft->messageBuffer[2] = (unsigned char) (term >> 8);
+  _raft->messageBuffer[3] = 0x01;
+  _raft->udp->sendPacket(ip, PORT, _raft->messageBuffer, 4);
 }
 
 void FollowerState::parseAppendEntriesMessage(){

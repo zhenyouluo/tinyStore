@@ -34,7 +34,7 @@ public:
 
     RaftNode(AbstractUdpProvider *udp, int seed);
     int nodeCount();
-    bool addNode(unsigned char *ip);
+    int addNode(unsigned char *ip);
     void removeNode(unsigned char *ip);
     int getNodeIndex(unsigned char *ip);
     LogEntry getLogEntry(unsigned int index);

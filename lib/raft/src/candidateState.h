@@ -13,6 +13,7 @@ protected:
 
   void readPacket();
   void parseVoteMessage();
+  bool hasMajority();
 
 public:
   CandidateState(RaftNode *raft);

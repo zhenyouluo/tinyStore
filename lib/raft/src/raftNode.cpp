@@ -50,7 +50,7 @@ int RaftNode::nodeCount() {
   return result;
 }
 
-bool RaftNode::addNode(unsigned char *ip) {
+int RaftNode::addNode(unsigned char *ip) {
   for (int i = 0; i < MAX_NODE_COUNT; i++){
     bool allNull = true;
     for (int j = 0; j  < 4; j++){
@@ -62,10 +62,10 @@ bool RaftNode::addNode(unsigned char *ip) {
       for (int j = 0; j  < 4; j++){
         nodes[i][j] = ip[j];
       }
-      return true;
+      return i;
     }
   }
-  return false;
+  return -1;
 }
 
 void RaftNode::removeNode(unsigned char *ip) {

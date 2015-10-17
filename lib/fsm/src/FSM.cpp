@@ -39,7 +39,7 @@ void FSM::transition(const char *name){
     if (_transitions[i].from == _current && strcmp(_transitions[i].name, name) == 0){
       _next = _transitions[i].to;
       Serial.print("transition from ");
-      Serial.print(i);
+      Serial.print(_transitions[i].from);
       Serial.print(" to ");
       Serial.print(_transitions[i].to);
       Serial.print(" via ");
