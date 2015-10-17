@@ -29,7 +29,7 @@ private:
     static void onSent(uv_udp_send_t* req, int status);
 public:
     virtual bool begin(int port);
-    virtual bool end();
+    virtual void stop();
     virtual void read(char *packetBuffer, unsigned int maxSize);
     virtual int parsePacket();
     virtual bool sendPacket(unsigned char *remoteIP, int remotePort, char *buffer, unsigned int size);

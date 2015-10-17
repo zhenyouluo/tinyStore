@@ -76,12 +76,11 @@ void UnixUdpProvider::onSent(uv_udp_send_t* req, int status) {
     free(req);
 }
 
-bool UnixUdpProvider::end() {
+void UnixUdpProvider::stop() {
     free(_messageBuf);
     _messageBuf = NULL;
     _messageQueue.empty();
     uv_udp_recv_stop(&_sock);
-    return true;
 }
 
 void UnixUdpProvider::read(char *packetBuffer, unsigned int maxSize) {

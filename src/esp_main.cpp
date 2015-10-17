@@ -6,23 +6,33 @@
 #include <WiFiServer.h>
 #include <WiFiUdp.h>
 #include <Raft.h>
+#include <ArduinoUdpProvider.h>
 
 const unsigned int MAX_MESSAGE_SIZE = 512;
 
-WiFiUDP udp;
-IPAddress ip(192,168,178,31);
-byte messageBuffer[MAX_MESSAGE_SIZE];
+ArduinoUdpProvider udp;
+unsigned char ip[4] = {192,168,43,244};
+unsigned char messageBuffer[MAX_MESSAGE_SIZE];
+RaftNode raft(&udp, analogRead(0));
 
 void setup() {
+
+  Serial.begin(9600);
   WiFi.mode(WIFI_STA);
+  Serial.write("connecting to WiFi ...\n");
   WiFi.begin("test", "bremen12");
+  Serial.write("connected!\n");
 }
 
 void loop() {
-  udp.beginPacket(ip, 55056);
   String m = "Hello, World!";
   m.getBytes(messageBuffer, MAX_MESSAGE_SIZE);
-  udp.write(messageBuffer, m.length());
-  udp.endPacket();
+  Serial.write("sending packet ...\n");
+  if (udp.sendPacket(ip, 55056, messageBuffer, m.length())){
+    Serial.write("packet sent!\n");
+  }
+  else {
+    Serial.write("error sending packet\n");
+  }
   delay(1000);
 }
