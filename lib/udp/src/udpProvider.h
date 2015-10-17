@@ -16,4 +16,5 @@ public:
 	virtual int parsePacket() = 0;
 	virtual unsigned int available() = 0;
 	virtual void remoteIP(unsigned char *buffer) = 0;
+	virtual void localIP(unsigned char *buffer) = 0;
 };

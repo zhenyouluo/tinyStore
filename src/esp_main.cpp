@@ -55,6 +55,9 @@ void loop() {
       createAP();
     }
   }
+  else {
+    raft.transition("connected");
+  }
 
   raft.loop();
 }

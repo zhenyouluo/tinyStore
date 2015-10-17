@@ -5,14 +5,15 @@ FollowerState::FollowerState(RaftNode *raft){
 }
 
 void FollowerState::setup() {
-    timeout = millis() + (unsigned long) random(150, 300);
+  unsigned long rand = (unsigned long) random(150, 300);
+  timeout = millis() + rand;
 }
 
 void FollowerState::loop() {
   if (_raft->udp->parsePacket()){
     readPacket();
   }
-  if (timeout <= millis()){
+  if (millis() > timeout){
     _raft->transition("startVote");
   }
 }
@@ -47,7 +48,7 @@ void FollowerState::parseRequestVoteMessage(){
     _raft->messageBuffer[1] = (unsigned char) term;
     _raft->messageBuffer[2] = (unsigned char) (term >> 8);
     _raft->messageBuffer[3] = 0x00;
-    _raft->udp->sendPacket(ip, 55056, _raft->messageBuffer, 4);
+    _raft->udp->sendPacket(ip, PORT, _raft->messageBuffer, 4);
     return;
   }
 

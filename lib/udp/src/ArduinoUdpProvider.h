@@ -15,6 +15,7 @@ public:
   virtual bool sendPacket(unsigned char *remoteIP, int remotePort, unsigned char *buffer, unsigned int size);
   virtual unsigned int available();
   virtual void remoteIP(unsigned char *buffer);
+	virtual void localIP(unsigned char *buffer);
 };
 
 #endif

@@ -8,6 +8,12 @@ class CandidateState : public State {
 protected:
   RaftNode *_raft;
 
+  unsigned long timeout;
+  bool votes[MAX_NODE_COUNT];
+
+  void readPacket();
+  void parseVoteMessage();
+
 public:
   CandidateState(RaftNode *raft);
 

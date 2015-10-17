@@ -10,10 +10,10 @@ class State;
 
 class FSM {
 
-  State *_current;
-  State *_next;
+  int _current;
+  int _next;
   int _initialState;
-  
+
 protected:
   State **_states;
   int _stateCount;

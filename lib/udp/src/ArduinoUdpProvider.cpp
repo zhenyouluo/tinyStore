@@ -54,3 +54,14 @@ void ArduinoUdpProvider::remoteIP(unsigned char *buffer) {
   buffer[2] = addr[2];
   buffer[3] = addr[3];
 }
+
+void ArduinoUdpProvider::localIP(unsigned char *buffer) {
+  IPAddress addr = WiFi.localIP();
+  if (addr[0] == 0 && addr[1] == 0 && addr[2] == 0 && addr[3] == 0){
+    addr = WiFi.softAPIP();
+  }
+  buffer[0] = addr[0];
+  buffer[1] = addr[1];
+  buffer[2] = addr[2];
+  buffer[3] = addr[3];
+}

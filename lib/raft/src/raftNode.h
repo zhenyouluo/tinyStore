@@ -1,6 +1,10 @@
 #ifndef RAFT_NODE_H
 #define RAFT_NODE_H
 
+#define MAX_LOG_LENGTH 512
+#define MAX_NODE_COUNT 16
+#define MESSAGE_BUFFER_SIZE 512
+
 #include <FSM.h>
 #include <ArduinoUdpProvider.h>
 
@@ -11,12 +15,8 @@
 #include "notConnectedState.h"
 #include "logEntry.h"
 
-#define MAX_LOG_LENGTH 512
-#define MAX_NODE_COUNT 16
-#define MESSAGE_BUFFER_SIZE 512
-
 class RaftNode : public FSM {
-  NotConnectedState *_notConnected; 
+  NotConnectedState *_notConnected;
   CandidateState *_candidate;
   FollowerState *_follower;
   LeaderState *_leader;

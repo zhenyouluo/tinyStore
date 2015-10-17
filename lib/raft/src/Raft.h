@@ -5,6 +5,9 @@ const unsigned char MESSAGE_TYPE_APPEND_ENTRIES_RESPONSE = 0x02;
 const unsigned char MESSAGE_TYPE_REQUEST_VOTE = 0xfe;
 const unsigned char MESSAGE_TYPE_VOTE = 0xff;
 
+const unsigned char BRAODCAST_ADDRESS[] {0,0,0,0};
+const int PORT = 55056;
+
 bool IPequals(unsigned char *ip1, unsigned char *ip2);
 void IPcopy(unsigned char *from, unsigned char *to);
 bool IPisEmpty(unsigned char *ip);

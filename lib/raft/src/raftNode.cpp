@@ -15,13 +15,14 @@ RaftNode::RaftNode(AbstractUdpProvider *udp, int seed) {
     _leader
   };
 
-  _transitionCount = 9;
-  _transitions = new Transition[9]{
+  _transitionCount = 10;
+  _transitions = new Transition[10]{
     Transition(0, 1, "connected"),
     Transition(1, 0, "connectionLost"),
     Transition(2, 0, "connectionLost"),
     Transition(3, 0, "connectionLost"),
     Transition(1, 2, "startVote"),
+    Transition(2, 2, "startVote"),
     Transition(2, 3, "elected"),
     Transition(2, 2, "timedOut"),
     Transition(2, 1, "not elected"),
