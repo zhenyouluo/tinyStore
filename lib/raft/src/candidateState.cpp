@@ -148,7 +148,6 @@ void CandidateState::removeNonVoters() {
       _raft->removeNodeAt(i);
     }
   }
-
 }
 
 bool CandidateState::hasMajority(){

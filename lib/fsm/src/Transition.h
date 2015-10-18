@@ -1,5 +1,4 @@
-#ifndef TRANSITION_H
-#define TRANSITION_H
+#pragma once
 
 struct Transition {
 public:
@@ -9,5 +8,3 @@ public:
   Transition (int from, int to, const char *name) : from(from), to(to), name(name){}
   Transition() : from (-1), to(-1), name(""){}
 };
-
-#endif

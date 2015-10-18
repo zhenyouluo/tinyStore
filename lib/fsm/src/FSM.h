@@ -1,6 +1,4 @@
-#ifndef FSM_H
-#define FSM_H
-
+#pragma once
 class State;
 
 #include <vector>
@@ -33,6 +31,3 @@ public:
   void setup();
   void loop();
 };
-
-
-#endif

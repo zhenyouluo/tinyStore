@@ -77,13 +77,6 @@ void UnixUdpProvider::onRead(uv_udp_t* handle, ssize_t nread, const uv_buf_t* bu
 
     char *messageBuf = (char*) malloc(sizeof(char) * nread);
     strncpy(messageBuf, buf->base, nread);
-  
-  /*printf("received: \"");
-  for (int i = 0; i < nread; i ++) {
-    printf(" 0x%02x", messageBuf[i]);
-  }
-  printf(")\" from %u.%u.%u.%u\n", remoteAddress[0], remoteAddress[1], remoteAddress[2], remoteAddress[3]);
-   */
 
     message m = {
         (int) nread,
@@ -96,7 +89,7 @@ void UnixUdpProvider::onRead(uv_udp_t* handle, ssize_t nread, const uv_buf_t* bu
 
 void UnixUdpProvider::onSent(uv_udp_send_t* req, int status) {
     if (status < 0){
-        printf("sending error: %s\n", uv_err_name(status));
+        fprintf(stderr, "sending error: %s\n", uv_err_name(status));
     }
     free(req);
 }

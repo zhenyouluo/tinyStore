@@ -1,5 +1,4 @@
-#ifndef STATE_H
-#define STATE_H
+#pragma once
 
 class FSM;
 
@@ -15,5 +14,3 @@ public:
   virtual void loop() = 0;
   virtual void cleanup() = 0;
 };
-
-#endif

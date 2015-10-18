@@ -1,6 +1,4 @@
-#ifndef RAFT_NODE_H
-#define RAFT_NODE_H
-
+#pragma once
 #define MAX_LOG_LENGTH 512
 #define MAX_NODE_COUNT 16
 #define MESSAGE_BUFFER_SIZE 512
@@ -42,5 +40,3 @@ public:
   LogEntry getLogEntry(unsigned int index);
   LogEntry getLastLogEntry();
 };
-
-#endif

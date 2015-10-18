@@ -1,5 +1,4 @@
-#ifndef LEADER_STATE_H
-#define LEADER_STATE_H
+#pragma once
 
 #include <State.h>
 #include "Raft.h"
@@ -29,5 +28,3 @@ public:
   virtual void loop();
   virtual void cleanup();
 };
-
-#endif
