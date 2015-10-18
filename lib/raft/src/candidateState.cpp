@@ -43,6 +43,15 @@ void CandidateState::loop() {
       _raft->transition("startVote");
     }
   }
+  while (_raft->lastApplied <= _raft->commitIndex){
+    LogEntry entry = _raft->log[(_raft->lastApplied++) % MAX_LOG_LENGTH];
+    Log(entry.type);
+    Log(" ");
+    for (int i = 0; i < sizeof(entry.data); i++){
+      Log(entry.data[i]);
+    }
+    Log("\n");
+  }
 }
 
 void CandidateState::cleanup() {
@@ -104,7 +113,7 @@ void CandidateState::parseAppendEntriesMessage() {
   if (_raft->getNodeIndex(remoteIP) < 0){
     _raft->addNode(remoteIP);
   }
-  if (term >= _raft->currentTerm) {
+  if (term > _raft->currentTerm) {
     _raft->currentTerm = term;
     IPcopy(remoteIP, _raft->currentLeader);
     _raft->transition("notElecetd");

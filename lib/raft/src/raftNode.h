@@ -22,24 +22,25 @@ class RaftNode : public FSM {
   LeaderState *_leader;
 
 public:
-    LogEntry log[MAX_LOG_LENGTH];
-    unsigned char nodes[MAX_NODE_COUNT][4];
-    AbstractUdpProvider *udp;
-    unsigned short currentTerm;
-    unsigned char votedFor[4];
-    unsigned char currentLeader[4];
-    unsigned short commitIndex;
-    unsigned short lastApplied;
-    unsigned char messageBuffer[MESSAGE_BUFFER_SIZE];
+  LogEntry log[MAX_LOG_LENGTH];
+  unsigned char nodes[MAX_NODE_COUNT][4];
+  AbstractUdpProvider *udp;
+  unsigned short currentTerm;
+  unsigned char votedFor[4];
+  unsigned char currentLeader[4];
+  unsigned short commitIndex;
+  unsigned short lastApplied;
+  unsigned short lastEntryIndex;
+  unsigned char messageBuffer[MESSAGE_BUFFER_SIZE];
 
-    RaftNode(AbstractUdpProvider *udp, int seed);
-    int nodeCount();
+  RaftNode(AbstractUdpProvider *udp, int seed);
+  int nodeCount();
   int addNode(unsigned char *ip);
   void removeNode(unsigned char *ip);
   void removeNodeAt(int index);
-    int getNodeIndex(unsigned char *ip);
-    LogEntry getLogEntry(unsigned int index);
-    LogEntry getLastLogEntry();
+  int getNodeIndex(unsigned char *ip);
+  LogEntry getLogEntry(unsigned int index);
+  LogEntry getLastLogEntry();
 };
 
 #endif

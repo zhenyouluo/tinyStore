@@ -7,12 +7,16 @@
 class LeaderState : public State {
   
   unsigned long timeout;
+  unsigned short _nextIndex[MAX_NODE_COUNT];
+  unsigned short _matchIndex[MAX_NODE_COUNT];
   
   void resetTimer();
   void readPacket();
   void sendAppendEntries();
   void parseAppendEntriesResponseMessage();
   void parseRequestVoteMessage();
+  void sendNewEntries();
+  void increaseCommitIndex();
   
 protected:
   RaftNode *_raft;
