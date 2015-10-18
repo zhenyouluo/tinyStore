@@ -10,14 +10,6 @@ bool APMode = false;
 unsigned long reconnectTimer;
 
 void setup() {
-  unsigned char test[2];
-  unsigned short uint = 12345;
-  test[0] = uint & 0xff;
-  test[1] = (uint >> 8) & 0xff;
-  unsigned short other_uint = test[0];
-  other_uint |= test[1] << 8;
-  printf("from: 0x%04x | %u to:0x%04x | %u\n", uint, uint, other_uint, other_uint);
-  
   raft.setup();
 }
 

@@ -10,8 +10,6 @@ FollowerState::FollowerState(RaftNode *raft){
 void FollowerState::setup() {
   unsigned long rand = (unsigned long) random(150, 300);
   timeout = millis() + rand;
-  Log(_raft->currentTerm);
-  Log("\n");
 }
 
 void FollowerState::loop() {
@@ -24,18 +22,19 @@ void FollowerState::loop() {
   }
   while (_raft->lastApplied <= _raft->commitIndex){
     LogEntry entry = _raft->log[(_raft->lastApplied++) % MAX_LOG_LENGTH];
+    Log("Follower Apply ");
     Log(entry.type);
-    Log(" ");
+    Log(": ");
     for (int i = 0; i < sizeof(entry.data); i++){
       Log(entry.data[i]);
+      Log(" ");
     }
     Log("\n");
   }
 }
 
 void FollowerState::cleanup() {
-  Log(_raft->currentTerm);
-  Log("\n");
+  
 }
 
 void FollowerState::readPacket() {
@@ -54,7 +53,7 @@ void FollowerState::parseRequestVoteMessage(){
   int i = 1;
   unsigned short term = _raft->messageBuffer[i++];
   term = term | _raft->messageBuffer[i++] << 8;
-  unsigned short candidateLastLogIndex = _raft->messageBuffer[i++];
+  short candidateLastLogIndex = _raft->messageBuffer[i++];
   candidateLastLogIndex |= _raft->messageBuffer[i++] << 8;
   unsigned short candidateLastLogTerm = _raft->messageBuffer[i++];
   candidateLastLogTerm |= _raft->messageBuffer[i++] << 8;
@@ -82,7 +81,7 @@ void FollowerState::parseAppendEntriesMessage(){
   unsigned short term = _raft->messageBuffer[i++];
   term |= _raft->messageBuffer[i++] << 8;
   
-  unsigned short prevLogIndex = _raft->messageBuffer[i++];
+  short prevLogIndex = _raft->messageBuffer[i++];
   prevLogIndex |= _raft->messageBuffer[i++] << 8;
   unsigned short prevLogTerm = _raft->messageBuffer[i++];
   prevLogTerm |= _raft->messageBuffer[i++] << 8;
@@ -109,7 +108,7 @@ void FollowerState::parseAppendEntriesMessage(){
       _raft->lastEntryIndex = prevLogIndex + j + 1;
     }
   }
-  unsigned short commitIndex = _raft->messageBuffer[i++];
+  short commitIndex = _raft->messageBuffer[i++];
   commitIndex |= _raft->messageBuffer[i++] << 8;
   
   unsigned char remoteIP[4];

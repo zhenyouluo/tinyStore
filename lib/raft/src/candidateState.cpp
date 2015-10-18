@@ -26,8 +26,6 @@ void CandidateState::setup() {
   if (ownIndex >= 0){
     votes[ownIndex] = true;
   }
-  Log(_raft->currentTerm);
-  Log("\n");
 }
 
 void CandidateState::loop() {
@@ -55,8 +53,7 @@ void CandidateState::loop() {
 }
 
 void CandidateState::cleanup() {
-  Log(_raft->currentTerm);
-  Log("\n");
+  
 }
 
 void CandidateState::readPacket() {

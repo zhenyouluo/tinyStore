@@ -28,9 +28,9 @@ public:
   unsigned short currentTerm;
   unsigned char votedFor[4];
   unsigned char currentLeader[4];
-  unsigned short commitIndex;
-  unsigned short lastApplied;
-  unsigned short lastEntryIndex;
+  short commitIndex = -1;
+  short lastApplied = -1;
+  short lastEntryIndex = -1;
   unsigned char messageBuffer[MESSAGE_BUFFER_SIZE];
 
   RaftNode(AbstractUdpProvider *udp, int seed);

@@ -7,6 +7,7 @@
 class LeaderState : public State {
   
   unsigned long timeout;
+  unsigned long commandTimeout;
   unsigned short _nextIndex[MAX_NODE_COUNT];
   unsigned short _matchIndex[MAX_NODE_COUNT];
   

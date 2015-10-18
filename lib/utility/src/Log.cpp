@@ -10,7 +10,7 @@ void Log(const char *data) {
 #ifdef ARDUINO
     Serial.print(data);
 #else
-    std::cout << data;
+  printf("%s", data);
 #endif
 }
 
@@ -18,7 +18,7 @@ void Log(char *data) {
 #ifdef ARDUINO
   Serial.print(data);
 #else
-    std::cout << data;
+  printf("%s", data);
 #endif
 
 }
@@ -27,7 +27,7 @@ void Log(int data) {
 #ifdef ARDUINO
     Serial.print(data);
 #else
-    std::cout << data;
+    printf("0x%02x", data);
 #endif
 
 }
