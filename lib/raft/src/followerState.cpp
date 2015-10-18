@@ -94,6 +94,10 @@ void FollowerState::parseAppendEntriesMessage(){
     result = 0x00;
   }
   
+//  Log("received ");
+//  Log(newEntryCount);
+//  Log(" entries\n");
+  
   for (int j = 0; j < newEntryCount; j++){
     LogEntry newEntry;
     newEntry.term = _raft->messageBuffer[i++];

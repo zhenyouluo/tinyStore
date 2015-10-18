@@ -27,7 +27,7 @@ void Log(int data) {
 #ifdef ARDUINO
     Serial.print(data);
 #else
-    printf("0x%02x", data);
+    printf("%i", data);
 #endif
 
 }

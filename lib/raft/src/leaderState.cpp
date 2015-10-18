@@ -45,6 +45,14 @@ void LeaderState::loop() {
     }
     _nextIndex[ownIndex] = _raft->lastEntryIndex + 1;
     _matchIndex[ownIndex] = _raft->lastEntryIndex;
+    Log("Leader Submit ");
+    Log(newEntry.type);
+    Log(": ");
+    for (int i = 0; i < sizeof(newEntry.data); i++){
+      Log(newEntry.data[i]);
+      Log(" ");
+    }
+    Log("\n");
     commandTimeout = millis() + 1000;
   }
 
@@ -173,10 +181,10 @@ void LeaderState::parseRequestVoteMessage(){
 
 void LeaderState::sendNewEntries() {
   for (int i = 0; i < MAX_NODE_COUNT; i++){
-    if (_raft->lastEntryIndex <= _nextIndex[i]){
+    if (IPisEmpty(_raft->nodes[i])){
       continue;
     }
-    if (IPisEmpty(_raft->nodes[i])){
+    if (_raft->lastEntryIndex < _nextIndex[i]){
       continue;
     }
 
@@ -193,9 +201,10 @@ void LeaderState::sendNewEntries() {
     unsigned short newEntryCount = _raft->lastEntryIndex - prevLogIndex;
     _raft->messageBuffer[j++] = newEntryCount & 0xff;
     _raft->messageBuffer[j++] = (newEntryCount >> 8) & 0xff;
+    
 
-    for (; _nextIndex[i] <= _raft->lastEntryIndex; _nextIndex[i]++){
-      LogEntry newEntry = _raft->log[(_nextIndex[i]) % MAX_LOG_LENGTH];
+    for (int k = _nextIndex[i]; k <= _raft->lastEntryIndex; k++){
+      LogEntry newEntry = _raft->log[(k) % MAX_LOG_LENGTH];
       _raft->messageBuffer[j++] = newEntry.term & 0xff;
       _raft->messageBuffer[j++] = (newEntry.term >> 8) & 0xff;
       _raft->messageBuffer[j++] = newEntry.type;
@@ -203,6 +212,18 @@ void LeaderState::sendNewEntries() {
         _raft->messageBuffer[j++] = newEntry.data[l];
       }
     }
+    
+//    Log("send ");
+//    Log(newEntryCount);
+//    Log(" entries to ");
+//    Log(_raft->nodes[i][0]);
+//    Log(".");
+//    Log(_raft->nodes[i][1]);
+//    Log(".");
+//    Log(_raft->nodes[i][2]);
+//    Log(".");
+//    Log(_raft->nodes[i][3]);
+//    Log("\n");
 
     _raft->messageBuffer[j++] = _raft->commitIndex & 0xff;
     _raft->messageBuffer[j++] = (_raft->commitIndex >> 8) & 0xff;
