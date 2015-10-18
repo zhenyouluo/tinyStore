@@ -5,6 +5,15 @@
 #include "Raft.h"
 
 class LeaderState : public State {
+  
+  unsigned long timeout;
+  
+  void resetTimer();
+  void readPacket();
+  void sendAppendEntries();
+  void parseAppendEntriesResponseMessage();
+  void parseRequestVoteMessage();
+  
 protected:
   RaftNode *_raft;
 

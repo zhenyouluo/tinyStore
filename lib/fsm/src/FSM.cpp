@@ -1,6 +1,9 @@
 #include "FSM.h"
 
+#if ARDUINO
 #include <Arduino.h>
+#endif
+#include <Log.h>
 
 FSM::FSM(State** states, int stateCount, Transition* transitions, int transitionCount){
     _initialState = -1;
@@ -38,13 +41,13 @@ void FSM::transition(const char *name){
   for (int i = 0; i < _transitionCount; i++){
     if (_transitions[i].from == _current && strcmp(_transitions[i].name, name) == 0){
       _next = _transitions[i].to;
-      Serial.print("transition from ");
-      Serial.print(_transitions[i].from);
-      Serial.print(" to ");
-      Serial.print(_transitions[i].to);
-      Serial.print(" via ");
-      Serial.print(name);
-      Serial.print("\n");
+      Log("transition from ");
+      Log(_transitions[i].from);
+      Log(" to ");
+      Log(_transitions[i].to);
+      Log(" via ");
+      Log(name);
+      Log("\n");
       return;
     }
   }

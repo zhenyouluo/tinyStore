@@ -5,19 +5,42 @@
 #include <cstdlib>
 #include <cstdio>
 #include <sys/socket.h>
+#include <Log.h>
 
 
 std::queue<message> UnixUdpProvider::_messageQueue;
 char *UnixUdpProvider::_messageBuf;
 uv_udp_t UnixUdpProvider::_sock;
+unsigned char UnixUdpProvider::_localIP[4];
 
 bool UnixUdpProvider::begin(int port) {
     uv_loop_t *loop = uv_default_loop();
     if (uv_udp_init(loop, &_sock)){
         return false;
     }
+    
+    char buf[32];
+    uv_interface_address_t *info;
+    int count, i;
+    
+    uv_interface_addresses(&info, &count);
+    i = count;
+    while (i--) {
+        uv_interface_address_t interface = info[i];
+        if (interface.is_internal){
+            continue;
+        }
+        if (interface.address.address4.sin_family != AF_INET){
+            continue;
+        }
+        uv_ip4_name(&interface.address.address4, buf, sizeof(buf));
+        uv_inet_pton(AF_INET, buf, _localIP);
+      i = 0;
+    }
+    
     uv_ip4_addr("0.0.0.0", port, &_recvAddr);
     uv_udp_bind(&_sock, (const struct sockaddr*) &_recvAddr, UV_UDP_REUSEADDR);
+    uv_udp_set_broadcast(&_sock, 1);
     if (uv_udp_recv_start(&_sock, allocBuffer, onRead)){
         return false;
     }
@@ -51,10 +74,16 @@ void UnixUdpProvider::onRead(uv_udp_t* handle, ssize_t nread, const uv_buf_t* bu
     unsigned char *remoteAddress = (unsigned char*) malloc(sizeof(unsigned char) * 4);
     uv_inet_pton(AF_INET, senderAddr, remoteAddress);
 
-    printf("received: \"%s\" from %u.%u.%u.%u\n", buf->base, remoteAddress[0], remoteAddress[1], remoteAddress[2], remoteAddress[3]);
 
     char *messageBuf = (char*) malloc(sizeof(char) * nread);
     strncpy(messageBuf, buf->base, nread);
+  
+  /*printf("received: \"");
+  for (int i = 0; i < nread; i ++) {
+    printf(" 0x%02x", messageBuf[i]);
+  }
+  printf(")\" from %u.%u.%u.%u\n", remoteAddress[0], remoteAddress[1], remoteAddress[2], remoteAddress[3]);
+   */
 
     message m = {
         (int) nread,
@@ -62,16 +91,12 @@ void UnixUdpProvider::onRead(uv_udp_t* handle, ssize_t nread, const uv_buf_t* bu
         messageBuf,
         0
     };
-    printf("packet size: %i, content: %s\n", m.length, m.packetBuffer);
     _messageQueue.push(m);
 }
 
 void UnixUdpProvider::onSent(uv_udp_send_t* req, int status) {
     if (status < 0){
         printf("sending error: %s\n", uv_err_name(status));
-    }
-    else {
-        printf("sending successful\n");
     }
     free(req);
 }
@@ -83,23 +108,24 @@ void UnixUdpProvider::stop() {
     uv_udp_recv_stop(&_sock);
 }
 
-void UnixUdpProvider::read(char *packetBuffer, unsigned int maxSize) {
+int UnixUdpProvider::read(unsigned char *packetBuffer, unsigned int maxSize) {
     if (_messageQueue.size() < 1){
-        return;
+        return 0;
     }
     if (_messageQueue.front().length - _messageQueue.front().readOffset <= maxSize){
-        strncpy(packetBuffer, _messageQueue.front().packetBuffer + _messageQueue.front().readOffset, _messageQueue.front().length - _messageQueue.front().readOffset);
+        
+        strncpy((char*)packetBuffer, _messageQueue.front().packetBuffer + _messageQueue.front().readOffset, _messageQueue.front().length - _messageQueue.front().readOffset);
         _messageQueue.front().readOffset = _messageQueue.front().length;
-        return;
+        return _messageQueue.front().length;
     }
     else {
-        strncpy(packetBuffer, _messageQueue.front().packetBuffer + _messageQueue.front().readOffset, maxSize);
+        strncpy((char*) packetBuffer, _messageQueue.front().packetBuffer + _messageQueue.front().readOffset, maxSize);
         _messageQueue.front().readOffset += maxSize;
-        return;
+        return maxSize;
     }
 }
 
-bool UnixUdpProvider::sendPacket(unsigned char *remoteIP, int remotePort, char *buffer, unsigned int size) {
+bool UnixUdpProvider::sendPacket(unsigned char *remoteIP, int remotePort, unsigned char *buffer, unsigned int size) {
     char targetAddrString [17] = {'\0'};
     uv_udp_send_t *req = (uv_udp_send_t*) malloc(sizeof(uv_udp_send_t));
 
@@ -108,7 +134,7 @@ bool UnixUdpProvider::sendPacket(unsigned char *remoteIP, int remotePort, char *
     struct sockaddr_in targetAddr;
     uv_ip4_addr(targetAddrString, 55056, &targetAddr);
     uv_buf_t sendBuf;
-    sendBuf.base = buffer;
+    sendBuf.base = (char*) buffer;
     sendBuf.len = size;
 
     int result = uv_udp_send(req, &_sock, &sendBuf, 1, (const struct sockaddr*) &targetAddr, onSent);
@@ -140,10 +166,17 @@ unsigned int UnixUdpProvider::available() {
     return _messageQueue.front().length - _messageQueue.front().readOffset;
 }
 
-const unsigned char* UnixUdpProvider::remoteIP() {
+void UnixUdpProvider::remoteIP(unsigned char *buffer) {
     if (_messageQueue.size() > 0){
-        return _messageQueue.front().remoteIP;
+        for (int i = 0; i < 4; i++){
+            buffer[i] = _messageQueue.front().remoteIP[i];
+        }
     }
-    return NULL;
+}
+
+void UnixUdpProvider::localIP(unsigned char *buffer) {
+  for (int i = 0; i < 4; i++){
+    buffer[i] = _localIP[i];
+  }
 }
 #endif

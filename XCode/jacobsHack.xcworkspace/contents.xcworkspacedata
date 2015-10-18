@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:../platformio.ini">
+   </FileRef>
+   <FileRef
+      location = "group:platformio-xcode-wrapper.sh">
+   </FileRef>
+   <FileRef
+      location = "group:main.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:raft.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:udp.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:FSM.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Utility/Utility.xcodeproj">
+   </FileRef>
+</Workspace>

@@ -9,10 +9,13 @@ protected:
   RaftNode *_raft;
 
   unsigned long timeout;
-  bool votes[MAX_NODE_COUNT];
+  short votes[MAX_NODE_COUNT];
 
   void readPacket();
   void parseVoteMessage();
+  void parseAppendEntriesMessage();
+  void sendVoteRequestMessage();
+  void removeNonVoters();
   bool hasMajority();
 
 public:

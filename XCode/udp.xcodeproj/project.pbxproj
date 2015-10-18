@@ -1,0 +1,288 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		802461E81BD3117500B9082C /* udpProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 802461E31BD3117500B9082C /* udpProvider.h */; settings = {ASSET_TAGS = (); }; };
+		802461E91BD3117500B9082C /* unixUdpProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 802461E41BD3117500B9082C /* unixUdpProvider.cpp */; settings = {ASSET_TAGS = (); }; };
+		802461EA1BD3117500B9082C /* unixUdpProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 802461E51BD3117500B9082C /* unixUdpProvider.h */; settings = {ASSET_TAGS = (); }; };
+		802461EC1BD311CF00B9082C /* libuv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 802461EB1BD311CF00B9082C /* libuv.a */; };
+		802462281BD3211D00B9082C /* libUtility.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 802462271BD3211D00B9082C /* libUtility.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		802461D91BD3112D00B9082C /* libudp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libudp.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		802461E31BD3117500B9082C /* udpProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = udpProvider.h; sourceTree = "<group>"; };
+		802461E41BD3117500B9082C /* unixUdpProvider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = unixUdpProvider.cpp; sourceTree = "<group>"; };
+		802461E51BD3117500B9082C /* unixUdpProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unixUdpProvider.h; sourceTree = "<group>"; };
+		802461EB1BD311CF00B9082C /* libuv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libuv.a; path = /usr/local/lib/libuv.a; sourceTree = "<absolute>"; };
+		802462271BD3211D00B9082C /* libUtility.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libUtility.a; path = DerivedData/jacobsHack/Build/Products/Debug/libUtility.a; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		802461D61BD3112D00B9082C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				802462281BD3211D00B9082C /* libUtility.a in Frameworks */,
+				802461EC1BD311CF00B9082C /* libuv.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		802461D01BD3112D00B9082C = {
+			isa = PBXGroup;
+			children = (
+				802461ED1BD311D800B9082C /* lib */,
+				802461E01BD3117500B9082C /* src */,
+				802461DA1BD3112D00B9082C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		802461DA1BD3112D00B9082C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				802461D91BD3112D00B9082C /* libudp.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		802461E01BD3117500B9082C /* src */ = {
+			isa = PBXGroup;
+			children = (
+				802461E31BD3117500B9082C /* udpProvider.h */,
+				802461E41BD3117500B9082C /* unixUdpProvider.cpp */,
+				802461E51BD3117500B9082C /* unixUdpProvider.h */,
+			);
+			name = src;
+			path = ../lib/udp/src;
+			sourceTree = "<group>";
+		};
+		802461ED1BD311D800B9082C /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				802462271BD3211D00B9082C /* libUtility.a */,
+				802461EB1BD311CF00B9082C /* libuv.a */,
+			);
+			name = lib;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		802461D71BD3112D00B9082C /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				802461EA1BD3117500B9082C /* unixUdpProvider.h in Headers */,
+				802461E81BD3117500B9082C /* udpProvider.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		802461D81BD3112D00B9082C /* udp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 802461DD1BD3112D00B9082C /* Build configuration list for PBXNativeTarget "udp" */;
+			buildPhases = (
+				802461D51BD3112D00B9082C /* Sources */,
+				802461D61BD3112D00B9082C /* Frameworks */,
+				802461D71BD3112D00B9082C /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = udp;
+			productName = udp;
+			productReference = 802461D91BD3112D00B9082C /* libudp.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		802461D11BD3112D00B9082C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = "Lukas Höppner";
+				TargetAttributes = {
+					802461D81BD3112D00B9082C = {
+						CreatedOnToolsVersion = 7.0.1;
+					};
+				};
+			};
+			buildConfigurationList = 802461D41BD3112D00B9082C /* Build configuration list for PBXProject "udp" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 802461D01BD3112D00B9082C;
+			productRefGroup = 802461DA1BD3112D00B9082C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				802461D81BD3112D00B9082C /* udp */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		802461D51BD3112D00B9082C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				802461E91BD3117500B9082C /* unixUdpProvider.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		802461DB1BD3112D00B9082C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		802461DC1BD3112D00B9082C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		802461DE1BD3112D00B9082C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../lib/utility/src",
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Utility/build/Debug",
+					/usr/local/lib,
+					"$(PROJECT_DIR)/DerivedData/jacobsHack/Build/Products/Debug",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		802461DF1BD3112D00B9082C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../lib/utility/src",
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Utility/build/Debug",
+					/usr/local/lib,
+					"$(PROJECT_DIR)/DerivedData/jacobsHack/Build/Products/Debug",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		802461D41BD3112D00B9082C /* Build configuration list for PBXProject "udp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				802461DB1BD3112D00B9082C /* Debug */,
+				802461DC1BD3112D00B9082C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		802461DD1BD3112D00B9082C /* Build configuration list for PBXNativeTarget "udp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				802461DE1BD3112D00B9082C /* Debug */,
+				802461DF1BD3112D00B9082C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 802461D11BD3112D00B9082C /* Project object */;
+}

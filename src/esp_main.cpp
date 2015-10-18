@@ -1,5 +1,6 @@
 
 #include <Arduino.h>
+#include <Log.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266WiFiMulti.h>
 #include <WiFiClient.h>
@@ -8,7 +9,6 @@
 #include <Raft.h>
 #include <ArduinoUdpProvider.h>
 
-const unsigned int MAX_MESSAGE_SIZE = 512;
 const unsigned int MAX_RECONNECT_MILLIS = 10000;
 const char ssid[] = "test";
 const char pass[] = "bremen12";
@@ -29,7 +29,7 @@ void setup() {
 }
 
 void createAP() {
-  Serial.print("create AP ...\n");
+  Log("create AP ...\n");
   WiFi.mode(WIFI_AP);
   WiFi.softAP(ssid, pass);
   APMode = true;

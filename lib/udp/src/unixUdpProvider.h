@@ -1,4 +1,4 @@
-#if !ARDUINO
+#ifndef ARDUINO
 
 #ifndef unixUdpProvider_h
 #define unixUdpProvider_h
@@ -20,6 +20,7 @@ private:
     static uv_udp_t _sock;
     sockaddr_in _recvAddr;
     sockaddr_in _broadcastAddr;
+  static unsigned char _localIP[4];
 
     static std::queue<message> _messageQueue;
     static char *_messageBuf;
@@ -30,12 +31,13 @@ private:
 public:
     virtual bool begin(int port);
     virtual void stop();
-    virtual void read(char *packetBuffer, unsigned int maxSize);
+    virtual int read(unsigned char *packetBuffer, unsigned int maxSize);
+    virtual bool sendPacket(unsigned char *remoteIP, int remotePort, unsigned char *buffer, unsigned int size);
     virtual int parsePacket();
-    virtual bool sendPacket(unsigned char *remoteIP, int remotePort, char *buffer, unsigned int size);
     virtual unsigned int available();
-    virtual const unsigned char* remoteIP();
+    virtual void remoteIP(unsigned char *buffer);
+    virtual void localIP(unsigned char *buffer);
 };
 
 #endif
-#endif //ARDUINO
+#endif // !ARDUINO

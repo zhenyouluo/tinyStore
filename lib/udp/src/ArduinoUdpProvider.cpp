@@ -1,5 +1,6 @@
 #include "ArduinoUdpProvider.h"
 
+#include <Log.h>
 
 ArduinoUdpProvider::ArduinoUdpProvider(){
 }
@@ -22,12 +23,13 @@ int ArduinoUdpProvider::parsePacket() {
 
 bool ArduinoUdpProvider::sendPacket(unsigned char *remoteIP, int remotePort, unsigned char *buffer, unsigned int size) {
   IPAddress targetIP(remoteIP[0], remoteIP[1], remoteIP[2], remoteIP[3]);
-  Serial.print("send ");
+  /*Log("send ");
   for (int i = 0; i < size; i++){
-    Serial.print((unsigned int) buffer[i]);
-    Serial.print(" ");
+    Log((unsigned int) buffer[i]);
+    Log(" ");
   }
-  Serial.print("\n");
+  Log("\n");
+  */
   if (!_udp.beginPacket(targetIP, remotePort)){
     return false;
   }

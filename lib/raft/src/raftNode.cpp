@@ -1,7 +1,9 @@
 #include "raftNode.h"
+#include <ArduinoHelper.h>
 
 RaftNode::RaftNode(AbstractUdpProvider *udp, int seed) {
   this->udp = udp;
+    udp->begin(PORT);
   _notConnected = new NotConnectedState();
   _candidate = new CandidateState(this);
   _follower = new FollowerState(this);
@@ -25,7 +27,7 @@ RaftNode::RaftNode(AbstractUdpProvider *udp, int seed) {
     Transition(2, 2, "startVote"),
     Transition(2, 3, "elected"),
     Transition(2, 2, "timedOut"),
-    Transition(2, 1, "not elected"),
+    Transition(2, 1, "notElected"),
     Transition(3, 1, "higherTerm")
   };
 
@@ -77,6 +79,10 @@ void RaftNode::removeNode(unsigned char *ip) {
       return;
     }
   }
+}
+
+void RaftNode::removeNodeAt(int index){
+  IPempty(nodes[index]);
 }
 
 int RaftNode::getNodeIndex(unsigned char *ip) {

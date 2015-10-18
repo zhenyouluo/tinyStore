@@ -1,6 +1,12 @@
 #ifndef ARDUINO_UDP_PROVIDER_H
 #define ARDUINO_UDP_PROVIDER_H
 
+#include <ESP8266WiFi.h>
+#include <ESP8266WiFiMulti.h>
+#include <WiFiClient.h>
+#include <WiFiServer.h>
+#include <WiFiUdp.h>
+
 #include "udpProvider.h"
 
 class ArduinoUdpProvider : public AbstractUdpProvider {
